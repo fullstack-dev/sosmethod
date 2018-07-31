@@ -1,0 +1,177 @@
+$sliderZ: 100;
+
+page-survey {
+
+  h2 {
+    margin: 0;
+  }
+
+  .survey-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .percentage-question-wrapper {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .question {
+    font-size: 64px;
+    text-align: center;
+    padding: 0 32px;
+  }
+
+  .survey-footer {
+    background: #FFF;
+    border-top-left-radius: 100%;
+    border-top-right-radius: 100%;
+    width: 130%;
+    margin: 0 auto;
+    left: -15%;
+    padding-top: 60px;
+
+    .footer-wrapper {
+      width: 100vw;
+      margin: 0 auto;
+      padding: 0 10px;
+    }
+    
+    .slider-and-label-wrapper {
+      padding: 0 12px;
+    }
+
+    .slider-bar {
+      background: rgb(255,53,88);
+background: linear-gradient(90deg, rgba(255,53,88,1) 0%, rgba(253,96,78,1) 20%, rgba(247,121,64,1) 40%, rgba(69,197,191,1) 60%, rgba(0,143,188,1) 80%, rgba(0,97,150,1) 100%);
+      height: 10px;
+      width: 100%;
+      margin: 0 0 10px;
+    }
+
+    .label-wrapper {
+      height: 32px;
+
+      .option {
+        font-weight: 600;
+        @include body-copy();
+        font-size: 24px;
+        line-height: 24px;
+        text-transform: uppercase;
+      }
+
+      .bottom-option {
+        float: left;
+        color: #FF3558;
+      }
+      .top-option {
+        float: right;
+        color: #006196;
+      }
+    }
+
+    h2 {
+      color: black;
+    }
+  }
+
+  .continue.btn {
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    margin: 40px 0 20px;
+
+    &.showing {
+      opacity: 1;
+      pointer-events: initial;
+    }
+  }
+
+  .footer-md::before {
+    background: none;
+  }
+
+  .slider-wrapper {
+    position: relative;
+  }
+
+  survey-user-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    height: 84px;
+    width: 84px;
+  }
+
+
+  // start of range input styling
+
+  input[type=range] {
+    -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+    width: 100%; /* Specific width is required for Firefox. */
+    background: transparent; /* Otherwise white in Chrome */
+  }
+  
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+  }
+  
+  input[type=range]:focus {
+    background: transparent;
+    outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+  }
+  
+  input[type=range]::-ms-track {
+    width: 100%;
+    cursor: pointer;
+  
+    /* Hides the slider so custom styles can be added */
+    background: transparent; 
+    border-color: transparent;
+    color: transparent;
+  }
+
+  // end hiding of defaults
+
+  /* Special styling for WebKit/Blink */
+  input[type=range]::-webkit-slider-thumb {
+    height: 84px;
+    width: 84px;
+    cursor: pointer;
+    margin-top: 0; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+    background: transparent;
+    border: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: background;
+  }
+  input[type=range]::-moz-range-thumb {
+    height: 84px;
+    width: 84px;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: background;
+  }
+  input[type=range]::-ms-thumb {
+    height: 84px;
+    width: 84px;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: background;
+  }
+
+  // end range input styling
+
+}

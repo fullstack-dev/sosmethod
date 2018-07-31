@@ -1,0 +1,15 @@
+.error-toast {
+
+  .toast-container {
+    background: $errorColor;
+  }
+
+  .toast-message {
+    color: white;
+    white-space: pre-wrap;
+  }
+
+  .toast-button {
+    background: rgba(0,0,0, 0.2);
+  }
+}

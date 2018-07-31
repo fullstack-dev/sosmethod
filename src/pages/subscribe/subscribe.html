@@ -1,0 +1,69 @@
+<ion-header padding>
+  <button class="player-back-button icon-only" ion-button icon-only (click)="goBack()">
+    <ion-icon
+      class="player-back-button-icon"
+      name="arrow-back"
+      ios="md-arrow-back"
+      md="md-arrow-back"
+    ></ion-icon>
+  </button>
+</ion-header>
+<ion-content padding>
+
+  <ng-container *ngIf="!hasSubscription && finishedLoading && subscriptionOptions.length > 0">
+    <h1>Do you have 5 minutes to transform your life?</h1>
+
+    <h2 class="most-popular-label" *ngIf="false">Most Popular</h2>
+    <ng-container *ngFor="let option of subscriptionOptions">
+      <div class="option {{option?.color}}">
+        <div class="inner">
+          <div class="name">{{ option?.secondaryText }}</div>
+          <div class="price">{{ option?.priceLabel }}</div>
+          <div class="description">
+            {{ option?.description }} <br> 
+            Recurring billing. Cancel anytime.
+          </div>
+          <div class="subscribe-button" (click)="subscribe(option?.subscriptionId)">Subscribe Now</div>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="appStoreError">
+    <h2>error</h2>
+    <p>There was an error while fetching subscription information.</p>
+  </ng-container>
+
+  <ng-container *ngIf="!hasSubscription && finishedLoading && subscriptionOptions.length === 0">
+    <h2>error</h2>
+    <p>{{signIntoStoreMessage}}</p>
+  </ng-container>
+
+  <ng-container *ngIf="hasSubscription && finishedLoading">
+    <h2>error</h2>
+    <p>You are already subscribed. Head on over to the Empower page to begin transforming your life.</p>
+  </ng-container>
+
+  <ng-container *ngIf="showAppStoreInfo">
+    <p class="app-store-info">By subscribing, you agree to our <a class="outside-link" href="http://sosmethod.co/terms">Terms & Conditions</a> and <a class="outside-link" href="http://sosmethod.co/privacy">Privacy Policy</a>.  Payment will be charged to iTunes Account at confirmation of purchase.  SOSMethod subscriptions automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period.  Account will be charged for renewal within 24-hours prior to the end of the current period, and identify the cost of the renewal.  Subscriptions may be managed by the user and auto-renewal may be turned off by going to the user's Account Settings after purchase.  Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable.</p>
+  </ng-container>
+
+  <div class="reviews">
+    <h2 class="title">endorsements</h2>
+
+    <div class="review" *ngFor="let review of reviews; let i = index;">
+      <div class="image-wrapper">
+        <img src="./assets/imgs/reviews/{{review.image}}" />
+      </div>
+      <div class="colored-bar {{review.color}}"></div>
+      <div class="stars">
+        <span class="star" *ngFor="let star of count(review.stars)">&#11088;</span>
+      </div>
+      <div class="name-wrapper">
+        <span class="name-and-location">{{review.name}}</span>
+      </div>
+      <p class="review-content">{{ review.text }}</p>
+      <div class="divider" *ngIf="i !== reviews.length - 1"></div>
+    </div>
+  </div>
+</ion-content>

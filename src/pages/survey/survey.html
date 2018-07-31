@@ -1,0 +1,45 @@
+<div
+  class="survey-bg"
+  [style.background]="getGradient()"
+></div>
+
+<ion-content>
+  <div class="percentage-question-wrapper">
+    <h2 class="question">{{question}}</h2>
+  </div>
+</ion-content>
+
+<ion-footer class="survey-footer text-center">
+  <div class="footer-wrapper">
+    <div class="slider-wrapper">
+      <survey-user-icon
+        id="survey-user-icon"
+        [color]="userIconColor"
+      ></survey-user-icon>
+      <input
+        class=""
+        type="range"
+        min=0
+        max=100
+        step=0.1
+        [(ngModel)]="percentageResponse"
+        (input)="sliderChanged($event)"
+      />
+    </div>
+    <div class="slider-and-label-wrapper">
+      <div class="slider-bar"></div>
+      <div class="label-wrapper">
+        <h2 class="option bottom-option">{{survey?.low_description}}</h2>
+        <h2 class="option top-option">{{survey?.high_description}}</h2>
+      </div>
+    </div>
+    <div>
+      <button
+        class="continue btn btn-mod blue"
+        ion-button
+        (click)="continue()"
+        [class.showing]="hasSliderChanged"
+      >Continue</button>
+    </div>
+  </div>
+</ion-footer>

@@ -1,0 +1,51 @@
+@import './variables';
+
+@mixin blue-bg() {
+  // old bg copied from angular site
+  //background-image: linear-gradient(#006196,#008fbc,#45c5bf);
+  background-image: linear-gradient(to left, #006196,#00ADC8);
+  // color fallback for ancient browsers
+  background-color: #45c5bf;
+}
+
+@mixin primary-bg() {
+  @include blue-bg();
+}
+
+// text/font mixins
+
+@mixin page-title() {
+  font-family: $headingFontFamily;
+  font-size: 34px;
+  text-transform: lowercase;
+}
+
+@mixin sub-section-title() {
+  font-family: $headingFontFamily;
+  font-size: 28px;
+  text-transform: lowercase;
+}
+
+@mixin body-copy() {
+  font-family: $bodyFontFamily;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+@mixin body-copy-large() {
+  @include body-copy();
+  font-size: 16px;
+  line-height: 22px;
+}
+
+@mixin body-copy-small() {
+  @include body-copy();
+  font-size: 12px;
+  line-height: 15px;
+}
+
+@mixin product-module-title() {
+  @include body-copy();
+  font-size: 12px;
+  text-transform: uppercase;
+}

@@ -1,0 +1,44 @@
+<!--
+  Generated template for the LoginPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <app-header [errorToast]="errorToast"></app-header>
+</ion-header>
+<ion-content class="login-page" padding>
+  <form>
+    <h1>Login</h1>
+    
+    <div>
+      <ion-input
+        type="email"
+        placeholder="Email"
+        (change)="emailChanged($event.target.value)"
+      ></ion-input>
+    </div>
+    
+    <div>
+      <ion-input
+        type="password"
+        placeholder="Password"
+        (change)="passwordChanged($event.target.value)"
+      ></ion-input>
+    </div>
+    
+    <div class="text-center">
+      <a href="https://sosmethod-backend.herokuapp.com/auth/password/new" target="_blank">Forgot your password?</a>
+    </div>
+
+    <div class="text-center">
+      <button ion-button type="submit" (click)="login()" class="btn btn-mod yellow">Login</button>
+    </div>
+
+    <div class="text-center">
+      <button ion-button type="submit" (click)="loginWithFacebook()" class="btn btn-mod blue">Login with Facebook</button>
+    </div>
+
+
+  </form>
+</ion-content>

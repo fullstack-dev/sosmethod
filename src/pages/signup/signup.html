@@ -1,0 +1,74 @@
+<!--
+  Generated template for the SignupPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header padding>
+  <app-header [errorToast]="errorToast"></app-header>
+</ion-header>
+
+<ion-content class="signup-page" padding>
+  <form *ngIf="!signupFinished">
+    <h1>Get your power back</h1>
+    <p>
+      Rewire your mind for wellbeing <br>
+      Relax, get inspired, in only 5 minutes <br>
+      Enjoy daily, taking a walk or sleeping
+    </p>
+    <h2>Sign up to begin, <br> it's free!</h2>
+    <div>
+      <ion-input
+        type="text"
+        placeholder="First Name"
+        (change)="firstNameChanged($event.target.value)"
+      ></ion-input>
+    </div>
+    <div>
+      <ion-input
+        type="text"
+        placeholder="Last Name"
+        (change)="lastNameChanged($event.target.value)"
+      ></ion-input>
+    </div>
+    <div>
+      <ion-input
+        type="email"
+        placeholder="Email"
+        (change)="emailChanged($event.target.value)"
+      ></ion-input>
+    </div>
+    <div>
+      <ion-input
+        type="password"
+        placeholder="Password"
+        (change)="passwordChanged($event.target.value)"
+      ></ion-input>
+    </div>
+
+    <div class="disclaimer">
+      By signing up, you agree to SOS Method's <a href="http://sosmethod.co/terms">Terms & Conditions</a> and <a href="http://sosmethod.co/privacy">Privacy Policy</a>.
+    </div>
+
+    <div class="text-center">
+      <button ion-button type="submit" (click)="signup()" class="btn btn-mod yellow">Sign-up</button>
+    </div>
+
+    <div class="text-center">
+      <button ion-button type="submit" (click)="signupWithFacebook()" class="btn btn-mod blue">Sign-up with Facebook</button>
+    </div>
+
+    <div class="text-center">
+      <a (click)="goToLogin()">Already have an account? Login</a>
+    </div>
+  </form>
+  <div *ngIf="signupFinished" class="signup-finished">
+    <h1>Success!</h1>
+    <p>You should receive a verification email shortly.</p>
+    <p>To complete sign up:</p>
+    <ol>
+      <li>Check your email and click the confirmation link in our message.</li>
+      <li>Return here and <a (click)="goToLogin()">log in.</a></li>
+    </ol>
+  </div>
+</ion-content>

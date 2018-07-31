@@ -1,0 +1,20 @@
+@import './images';
+
+// Colors
+$white: #FFFFFF;
+$turquoise: #5fdfd9;
+$lightBlue: #deffff;
+$darkerBlue: #006196;
+$errorRed: rgba(244,67,54,.8);
+
+// Usable Color Vars
+$mainTextColor: $white;
+$inputTextColor: $lightBlue;
+$inputBorderColor: $turquoise;
+$errorColor: linear-gradient(to bottom, #FD604E 1%, #F77940 100%);
+
+$bodyFontFamily: 'Open Sans';
+$headingFontFamily: 'Large_Handwriting';
+
+$smallScreenWidth: 340px;
+$smallishScreenWidth: 360px;

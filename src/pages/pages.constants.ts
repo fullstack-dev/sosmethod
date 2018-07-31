@@ -1,0 +1,9 @@
+//Constants for getting type references
+export const LOGIN_PAGE = 'LoginPage';
+export const SIGNUP_PAGE = 'SignupPage';
+export const EMPOWER_PAGE = 'EmpowerPage';
+export const PROGRAM_PAGE = 'ProgramPage';
+export const MEDITATION_PAGE = 'MeditationPage';
+export const SUBSCRIBE_PAGE = 'SubscribePage';
+export const TOOL_PAGE = 'ToolPage';
+export const SURVEY_PAGE = 'SurveyPage';

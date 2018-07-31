@@ -1,0 +1,159 @@
+<div class="video-container">
+  <video
+    #video
+    [src]="selectedBackgroundUrl"
+    preload="auto"
+    poster="assets/imgs/transparent.gif"
+    autoplay
+    playsinline
+    muted
+    webkit-playsinline
+    loop="false"
+  ></video>
+  <div class="idleable overlay" [class.idle]="idleState" [hidden]="!selectedBackgroundUrl"></div>
+</div>
+<ion-menu [content]="content" side="right" id="bgs">
+  <ion-content>
+    <ion-list>
+      <ion-item *ngFor="let bg of backgrounds" (click)="setBackground(bg.video)">
+        <img src="assets/imgs/bgs/{{bg.image}}" />
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-header class="idleable" [class.idle]="idleState">
+  <button class="player-back-button icon-only" ion-button icon-only (click)="goBack()">
+    <ion-icon
+      class="player-back-button-icon"
+      name="arrow-back"
+      ios="md-arrow-back"
+      md="md-arrow-back"
+    ></ion-icon>
+  </button>
+</ion-header>
+
+<ion-content #content padding>
+
+  <div class="data-loading-spinner-wrapper" *ngIf="loadingData">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <div *ngIf="failedLoadingData">
+    <h2>error</h2>
+    <p>The data failed to load. Check your network availability and try refreshing with the button below.</p>
+    <div class="refresh-button-wrapper">
+      <button ion-button type="button" (click)="getProgramClass()" class="btn btn-mod yellow">Refresh</button>
+    </div>
+  </div>
+
+  <h1 class="program-class-title idleable" [class.idle]="idleState">{{programClass?.title}}</h1>
+
+  <div class="class-days idleable" [class.idle]="idleState">
+    <ng-container *ngIf="programType === 'meditation' && classDays.length > 1">
+      <ion-segment
+        class="meditation-options"
+        mode="ios"
+        [(ngModel)]="currentClassDay.id"
+        color="primary"
+        (ionChange)="meditationChanged($event)"
+      >
+        <ion-segment-button
+          *ngFor="let classDay of classDays;"
+          [value]="classDay.id"
+        >
+          {{classDay.duration}}
+        </ion-segment-button>
+      </ion-segment>
+    </ng-container>
+    <ng-container *ngIf="programType !== 'meditation'">
+      <div
+        class="class-day"
+        *ngFor="let classDay of classDays; let i = index;"
+        (click)="classDayChanged(classDay)"
+      >
+        <div
+          class="day-number"
+          [class.current]="classDay.id === currentClassDay.id"
+          [class.completed]="classDay.completed"
+          [class.latest]="classDay.id === latestClassDay?.id"
+        >{{i + 1}}</div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="day-details text-center" [class.meditation]="programType === 'meditation'">
+    <h3 class="day-title idleable" [class.idle]="idleState">{{ currentClassDay?.title }}</h3>
+    <p class="day-description idleable" [class.idle]="idleState">{{ currentClassDay?.description }}</p>
+    <div class="day-duration idleable" [class.idle]="idleState">{{ currentClassDay?.duration }}</div>
+  </div>
+
+  <div class="player-controls" *ngIf="currentClassDay">
+    <audio-track
+      #audio
+      [track]="audioInfo"
+      (onFinish)="onTrackFinished($event)"
+    >
+      <div class="player-control restart-control">
+        <button
+          class="icon-only idleable" [class.idle]="idleState"
+          ion-button
+          icon-only
+          (click)="restartPressed(audio)"
+        >
+          <img src="assets/imgs/icons/skip-back.png"/>
+        </button>
+      </div>
+      <div class="player-control play-pause-control">
+        <button
+          class="icon-only play-button idleable" [class.idle]="idleState"
+          ion-button
+          icon-only
+          (click)="playOrPausePressed(audio)"
+        >
+          <ion-spinner *ngIf="shouldShowSpinner()"></ion-spinner>
+          <ion-icon class="play" name="play" *ngIf="!showingSpinner && !audio.isPlaying"></ion-icon>
+          <ion-icon class="pause" name="pause" *ngIf="!showingSpinner && audio.isPlaying"></ion-icon>
+        </button>
+        <round-progress
+          class="progress-circle idleable" [class.idle]="idleState"
+          [current]="normalizedProgress(audio)"
+          [max]="100"
+          [radius]="44"
+          [stroke]="3"
+        ></round-progress>
+      </div>
+      <div class="player-control rewind-control">
+          <button
+            class="icon-only idleable" [class.idle]="idleState"
+            ion-button
+            icon-only
+            (click)="rewindPressed(audio)"
+          >
+            <img src="assets/imgs/icons/rotate-ccw.png"/>
+          </button>
+      </div>
+    </audio-track>
+  </div>
+</ion-content>
+<ion-footer class="player-footer idleable" [class.idle]="idleState">
+  <button (click)="showBackgrounds()" class="icon-only">
+    <span class="icon-wrapper"><img src="assets/imgs/icons/image.png" /></span>
+    <span class="icon-text">scene</span>
+  </button>
+  <button
+    *ngIf="!!currentClassDay?.tool_id"
+    (click)="goToTool(currentClassDay?.tool_id)"
+    class="icon-only"
+  >
+    <span class="icon-wrapper"><img src="assets/imgs/icons/tools.png" /></span>
+    <span class="icon-text">tool</span>
+  </button>
+  <button
+    (click)="fastForwardToEnd()"
+    *ngIf="isDebug"
+    class="icon-only debug-button"
+  >
+    ➟
+  </button>
+</ion-footer>

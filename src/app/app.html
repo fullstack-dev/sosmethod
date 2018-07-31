@@ -1,0 +1,50 @@
+<div
+  class="intro-container"
+  [class.hidden]="!showingVideo">
+  <video
+    class="intro-video"
+    [class.hidden]="!showingVideo && shouldShowGif"
+    [src]="videoUrl"
+    preload="auto"
+    poster="assets/imgs/transparent.gif"
+    autoplay
+    playsinline
+    muted
+    webkit-playsinline
+    loop="false"
+  ></video>
+  <img
+    class="intro-video"
+    [class.hidden]="!showingVideo && !shouldShowGif"
+    [src]="gifUrl" 
+  />
+</div>
+<ion-menu [content]="navContent" side="right" id="main" padding>
+  <ion-content>
+    <ion-list class="main-menu">
+      <ion-item class="menu-item" *ngIf="isLoggedIn()">
+        <a class="menu-link" (click)="goTo('EmpowerPage')" menuToggle>Home</a>
+      </ion-item>
+      <ion-item class="menu-item" *ngIf="isLoggedIn() && !isSubscribed">
+        <a class="menu-link" (click)="goTo('SubscribePage')" menuToggle>Subscribe</a>
+      </ion-item>
+      <ion-item class="menu-item" *ngIf="!isLoggedIn()">
+        <a class="menu-link" (click)="goTo('LoginPage')" menuToggle>Login</a>
+      </ion-item>
+      <ion-item class="menu-item" *ngIf="isLoggedIn()">
+        <a class="menu-link" (click)="logout()" menuToggle>Logout</a>
+      </ion-item>
+      <ion-item class="menu-item" *ngIf="!isLoggedIn()">
+        <a class="menu-link" (click)="goTo('SignupPage')" menuToggle>Sign Up</a>
+      </ion-item>
+      <hr>
+      <ng-container *ngFor="let link of menuLinks; let i = index;">
+        <ion-item class="menu-item">
+          <a class="menu-link" [href]="link.url">{{link.text}}</a>
+        </ion-item>
+      </ng-container>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-nav #navContent [root]="rootPage"></ion-nav>

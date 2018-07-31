@@ -1,0 +1,36 @@
+<div class="push-popup-div">
+  <div class="bag-img-div">
+    <img src="assets/imgs/icon.png" class="bag-img" />
+    <div class="notification-icon"></div>
+  </div>
+
+  <div class="content-div">
+    <p class="title">We use notifications to:</p>
+    <div class="item-div">
+      <div class="image first"></div>
+      <p>Remind to you power up</p>
+    </div>
+    <div class="item-div">
+      <div class="image second"></div>
+      <p>Offer inspiring content</p>
+    </div>
+    <div class="item-div">
+      <div class="image third"></div>
+      <p>Help you stay in touch</p>
+    </div>
+    <div class="item-div">
+      <div class="image fourth"></div>
+      <p>Suggest new features</p>
+    </div>
+  </div>
+  
+  <div (click)="yesClick()" class="lets-div">
+    <img src="assets/imgs/buttons/buttons_blue.png" class="lets-btn" />
+    <p class="lets-txt">Let's do this!</p>
+  </div>
+
+  <div class="buttons-div">
+    <button class="deny-btn" (click)="noClick()">No, thanks</button>
+    <button class="accept-btn" (click)="laterClick()">Maybe later</button>
+  </div>
+</div>

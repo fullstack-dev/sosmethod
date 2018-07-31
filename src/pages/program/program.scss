@@ -1,0 +1,295 @@
+page-program {
+  position: relative;
+
+  .player-back-button {
+    background: none;
+    box-shadow: none;
+
+    ion-icon {
+      font-size: 40px;
+      line-height: 40px;
+    }
+
+    &:hover {
+      background: none !important;
+    }
+  }
+
+  h1 {
+    letter-spacing: 3px;
+
+    &::after {
+      background: none;
+    }
+  }
+
+  .data-loading-spinner-wrapper {
+    text-align: center;
+    padding-top: 200px;
+
+    ion-spinner {
+      height: 60px;
+      width: 60px;
+    }
+  }
+
+  .refresh-button-wrapper {
+    text-align: center;
+  }
+
+  .program-class-title {
+    text-align: center;
+    margin-bottom: 24px;
+    padding-right: 0;
+  }
+
+  .meditation-options {
+    width: 120px;
+    margin: 0 auto;
+  }
+
+  .class-days {
+    text-align: center;
+    max-width: 480px;
+    margin: 0 auto 32px;
+
+    .class-day {
+      width: calc(100% / 6);
+      display: inline-block;
+      margin-bottom: 20px;
+
+      .day-number {
+        border-radius: 40px;
+        height: 32px;
+        line-height: 28px;
+        width: 32px;
+        border: thin solid white;
+        background: none;
+        margin: 0 auto;
+        opacity: 0.5;
+
+        &.completed, &.latest {
+          opacity: 0.5;
+          background: white;
+          color: $darkerBlue;
+        }
+
+        &.current {
+          opacity: 1;
+          background: white;
+          color: $darkerBlue;
+        }
+
+      }
+    }
+  }
+
+  .day-details {
+
+    &.meditation {
+      visibility: hidden;
+    }
+  }
+
+  .day-title {
+    margin: 0;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    font-family: $bodyFontFamily;
+
+    // done instead of an !important above
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .day-description {
+    margin: 0;
+    text-transform: capitalize;
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .day-duration {
+    margin: 0;
+    text-transform: lowercase;
+    font-size: 16px;
+  }
+
+  .player-controls {
+    text-align: center;
+    margin-top: 32px;
+    
+    .player-control {
+      display: inline-block;
+      margin: 0 auto;
+    }
+
+    ion-spinner {
+      height: 60px;
+      width: 60px;
+    }
+
+    .play-pause-control {
+      position: relative;
+
+      .play-button {
+        height: 89px;
+        width: 89px;
+        z-index: 2;
+  
+        .icon {
+          font-size: 46px;
+          overflow: visible;
+          padding-left: 30px;
+
+          &.pause {
+            padding-left: 22px;
+          }
+        }
+      }
+
+      .progress-circle {
+        position: absolute;
+        top: 4px;
+        left: 2px;
+        z-index: 1;
+      }
+    }
+
+
+    .restart-control, .rewind-control {
+      margin: 0 20px;
+
+      button {
+        width: 40px;
+      }
+
+      img {
+        width: 16px;
+        height: auto;
+      }
+    }
+  }
+
+  .icon-only {
+    background: none;
+    box-shadow: none;
+
+    &:hover, &:active, &:focus {
+      background: none !important;
+      box-shadow: none;
+    }
+  }
+
+  .player-footer {
+    text-align: center;
+    padding-bottom: 0px;
+
+    &::before {
+      content: none;
+    }
+
+    button {
+      width: 100px;
+      margin: 0;
+
+      .icon-wrapper {
+        width: 50px;
+        margin: 0 auto;
+        display: block;
+      }
+    }
+  }
+
+  .debug-button {
+    font-size: 50px;
+    line-height: 50px;
+  }
+
+  .icon-text {
+    font-size: 16px;
+    display: block;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+}
+
+#bgs {
+  -webkit-transform: translate3d(0,0,0);
+  z-index: 80;
+
+  ion-backdrop {
+    display: initial;
+    opacity: 0 !important;
+  }
+
+  .menu-inner {
+    background: rgba(0,0,0, 0.4);
+  }
+
+  .item-inner {
+    border: none;
+  }
+
+  .content{
+    background: transparent;
+    z-index: 80;
+  }
+}
+
+.video-container {
+  pointer-events: none;
+  position: absolute;
+  top: -4px;
+  left: 0;
+  width: 100vw;
+  height: 101vh;
+  z-index: 1;
+
+  & > video {
+    display: block;
+    pointer-events: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+
+    @media screen and (max-aspect-ratio: 1920/1080) {
+      height: 100%;
+    }
+
+    @media screen and (min-aspect-ratio: 1920/1080) {
+      width: 100%;
+    }
+  }
+
+  & > .overlay {
+    background: rgba(0,0,0, 0.3);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+  }
+}
+
+.idleable {
+  opacity: 1;
+  transition: opacity 0.3s;
+
+  &.idle {
+    opacity: 0;
+    pointer-events: none !important;
+    transition: opacity 3s;
+  }
+}
+
+
+// iOS only fix for footer button size
+.ios .player-footer button .icon-wrapper {
+  width: 55px;
+}

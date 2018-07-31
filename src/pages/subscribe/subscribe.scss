@@ -1,0 +1,240 @@
+page-subscribe {
+
+
+  .player-back-button {
+    background: none;
+    box-shadow: none;
+
+    ion-icon {
+      font-size: 40px;
+      line-height: 40px;
+    }
+
+    &:hover {
+      background: none !important;
+    }
+  }
+
+  .most-popular-label {
+    margin-top: 50px;
+    text-align: center;
+  }
+
+  .option {
+    text-align: center;
+    margin: 0 0 40px;
+    padding: 2px;
+    border: 2px solid white;
+
+    @media(min-width: $smallishScreenWidth) {
+      margin: 0 20px 40px;
+    }
+
+    .inner {
+      padding: 40px 20px;
+    }
+
+    .name {
+      text-transform: uppercase;
+      margin-bottom: 30px;
+    }
+
+    .price {
+      font-size: 32px;
+      margin-bottom: 40px;
+    }
+
+    .description {
+      margin-bottom: 40px;
+      text-align: left;
+      word-wrap: none;
+    }
+
+    .subscribe-button {
+      background: white;
+      color: black;
+      font-size: 18px;
+      height: 32px;
+      line-height: 26px;
+    }
+
+    &.yellow {
+      border-image: linear-gradient(to bottom, #B98D2B 1%, #DFC142 100%);
+      border-image-slice: 1;
+
+      .inner {
+        background: linear-gradient(to bottom, #B98D2B 1%, #DFC142 100%);
+      }
+
+      .subscribe-button {
+        border: 2px solid #B98D2B;
+        color: #B98D2B;
+      }
+    }
+
+    &.blue {
+      border-image: linear-gradient(to bottom, #006196 1%, #45C5BF 100%);
+      border-image-slice: 1;
+
+      .inner {
+        background: linear-gradient(to bottom, #006196 1%, #45C5BF 100%);
+      }
+
+      .subscribe-button {
+        border: 2px solid #006196;
+        color: #006196;
+      }
+    }
+
+    &.purple {
+      border-image: linear-gradient(to bottom, #882F6F 1%, #CB6F91 100%);
+      border-image-slice: 1;
+
+      .inner {
+        background: linear-gradient(to bottom, #882F6F 1%, #CB6F91 100%);
+      }
+
+      .subscribe-button {
+        border: 2px solid #882F6F;
+        color: #882F6F;
+      }
+    }
+
+    &.pink {
+      border-image: linear-gradient(to bottom, #BB3F6B 1%, #F77940 100%);
+      border-image-slice: 1;
+
+      .inner {
+        background: linear-gradient(to bottom, #BB3F6B 1%, #F77940 100%);
+      }
+
+      .subscribe-button {
+        border: 2px solid #BB3F6B;
+        color: #BB3F6B;
+      }
+    }
+
+    &.orange {
+      border-image: linear-gradient(to bottom, #FD604E 1%, #F77940 100%);
+      border-image-slice: 1;
+
+      .inner {
+        background: linear-gradient(to bottom, #FD604E 1%, #F77940 100%);
+      }
+
+      .subscribe-button {
+        border: 2px solid #FD604E;
+        color: #FD604E;
+      }
+    }
+
+  }
+
+  .app-store-info {
+    font-size: 12px;
+    line-height: 18px;
+
+    a {
+      text-decoration: underline;
+      font-size: 12px;
+    }
+  }
+
+  .reviews {
+
+    $reviewTextColor: #666;
+
+    background: white;
+    text-align: center;
+    padding: 30px 20px;
+
+    .title {
+      @include body-copy();
+      color: $reviewTextColor;
+      font-weight: 700;
+      font-size: 34px;
+      line-height: 1;
+      margin-bottom: 30px;
+    }
+
+    .review {
+
+      .image-wrapper {
+        width: 200px;
+        margin: 0 auto 30px;
+
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+
+      .colored-bar {
+        height: 5px;
+        width: 200px;
+        margin: 0 auto 30px;
+
+        &.yellow {
+          background: linear-gradient(to right, #B98D2B 1%, #DFC142 100%);
+        }
+        
+        &.blue {
+          background: linear-gradient(to right, #006196 1%, #45C5BF 100%);
+        }
+
+        &.pink {
+          background: linear-gradient(to right, #BB3F6B 1%, #F77940 100%);
+        }
+
+        &.purple {
+          background: linear-gradient(to right, #882F6F 1%, #CB6F91 100%);
+        }
+
+        &.green {
+          background: linear-gradient(to right, #669966 1%, #99CC66 100%);
+        }
+      }
+
+      .stars {
+        margin: 0 auto 30px;
+
+        .star {
+          font-size: 28px;
+          margin: 0 8px;
+        }
+      }
+  
+      .name-wrapper {
+        margin: 0 auto 30px;
+
+        .icon {
+          font-size: 30px;
+          vertical-align: text-bottom;
+          line-height: 0px;
+        }
+
+        .name-and-location {
+          color: $reviewTextColor;
+          text-transform: uppercase;
+          font-weight: 600;
+        }
+      }
+
+      .review-content {
+        color: $reviewTextColor;
+        text-align: left;
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto 30px;
+      }
+
+      .divider {
+        height: 4px;
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto 30px;
+        background: linear-gradient(to right, #006196 1%, #45C5BF 100%);
+      }
+    }
+  }
+}
