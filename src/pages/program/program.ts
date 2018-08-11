@@ -135,6 +135,8 @@ export class ProgramPage implements AfterViewInit, OnDestroy {
       this.selectedBackgroundUrl = this.navParams.get('bgVideo');
     }
 
+    console.log("program id ==>", this.navParams.get('programId'));
+
     if(this.navParams.get('programId')) {
       this.programService.show(this.navParams.get('programId')).subscribe(result => {
         this.program = result.program;

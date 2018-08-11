@@ -66,13 +66,39 @@ export class PushPopupPage {
     };
     const pushObject: PushObject = this.push.init(options);
     pushObject.on('registration').subscribe((data: any) => {
-        this.sendTokenToServer(data.registrationId);
+      console.log("push token: ", data.registrationId);
+      this.sendTokenToServer(data.registrationId);
     },(error: any) => {
         console.log(error);
     });
     
     pushObject.on('notification').subscribe((data: any) => {
       console.log('message -> ' + data.message);
+      
+      var message = data.message;
+      var obj = JSON.parse(message);
+      var resource = obj.resource;
+
+      if (resource == "empower") {
+        this.navCtrl.setRoot('EmpowerPage');
+      } else if (resource == "next_day_audio") {
+        this.navCtrl.setRoot('ProgramPage', {
+          programClassId: '24',
+          programType: 'essentials',
+          programId: '22'
+        });
+      } else if (resource == "meditation") {
+        this.navCtrl.setRoot('ProgramPage', {
+          programClassId: '38',
+          programType: 'meditation',
+          programId: '29'
+        });
+      } else {
+
+      }
+
+      console.log("resource value: ", resource);
+
       //if user using app and push notification comes
       if (data.additionalData.foreground) {
       //if application open, show popup

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-version="40" id="co.sosmethod.mobile.staging" version="0.0.40" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>SOS Stage</name>
+<widget android-version="40" id="co.sosmethod.mobile" version="0.0.40" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>SOS Method</name>
     <description>Get your power back.</description>
     <author email="hello@sosmethod.co" href="http://sosmethod.co">SOS Method</author>
     <content src="index.html" />
@@ -119,6 +119,6 @@
         <variable name="SENDER_ID" value="653273040369" />
         <variable name="653273040369" value="11.6.3" />
     </plugin>
+    <engine name="android" spec="~7.1.0" />
     <engine name="ios" spec="~4.5.5" />
-    <engine name="android" spec="~6.3.0" />
 </widget>

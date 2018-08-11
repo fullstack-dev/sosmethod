@@ -17,7 +17,7 @@ import { CommonService } from './services/common.service';
 import { SubscriptionService } from './services/subscription.service';
 // import { PushService } from './services/push.service';
 
-// import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
 @Component({
   templateUrl: 'app.html'
@@ -122,7 +122,8 @@ export class MyApp {
     private debug: IsDebug,
     private hockey: HockeyApp,
     private app: App,
-    public storage: Storage
+    public storage: Storage,
+    private push: Push,
   ) {
     
     console.log("globals", ENV.URL);
@@ -130,7 +131,7 @@ export class MyApp {
     this.videoUrl = this.localVideoUrl;
     //this.videoUrl = 'https://969a6023.ngrok.io/intro.mp4';
     // this.videoUrl = this.sanitizer.bypassSecurityTrustUrl(introVideoDataUri);
-    
+
     platform.ready().then(async () => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -167,6 +168,8 @@ export class MyApp {
         }
         
       }
+
+      this.initPushNotification();
 
       // TODO: something about this doesnt look right
       // does subscription service always resolve hasSubscription before this event?
@@ -219,5 +222,63 @@ export class MyApp {
       });
 
     });
-  }  
+  } 
+
+  initPushNotification() {
+    const options: PushOptions = {
+      android: {
+        senderID: '653273040369'
+      },
+      ios: {
+        alert: 'true',
+        badge: false,
+        sound: 'true'
+      },
+      windows: {}
+    };
+    const pushObject: PushObject = this.push.init(options);
+    
+    pushObject.on('notification').subscribe((data: any) => {
+      console.log('message -> ' + data.message);
+      
+      var message = data.message;
+      var obj = JSON.parse(message);
+      var resource = obj.resource;
+
+      if (resource == "empower") {
+        this.nav.setRoot('EmpowerPage');
+      } else if (resource == "next_day_audio") {
+        this.nav.setRoot('ProgramPage', {
+          programClassId: '24',
+          programType: 'essentials',
+          programId: '22'
+        });
+      } else if (resource == "meditation") {
+        this.nav.setRoot('ProgramPage', {
+          programClassId: '38',
+          programType: 'meditation',
+          programId: '29'
+        });
+      } else {
+
+      }
+
+      console.log("resource value: ", resource);
+
+      //if user using app and push notification comes
+      if (data.additionalData.foreground) {
+      //if application open, show popup
+        
+      } else {
+        //if user NOT using app and push notification comes
+        //TODO: Your logic on click of push notification directly     
+        console.log('Push notification clicked');
+      }
+    });
+
+    pushObject.on('error').subscribe(error => {
+      console.error('Error with Push plugin' + error);
+      alert(error);
+    });
+  } 
 }
