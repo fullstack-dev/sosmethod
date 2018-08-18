@@ -33,6 +33,13 @@
     </div>
     <div>
       <ion-input
+        type="text"
+        placeholder="Nick Name"
+        (change)="nicknameChanged($event.target.value)"
+      ></ion-input>
+    </div>
+    <div>
+      <ion-input
         type="email"
         placeholder="Email"
         (change)="emailChanged($event.target.value)"
@@ -43,6 +50,13 @@
         type="password"
         placeholder="Password"
         (change)="passwordChanged($event.target.value)"
+      ></ion-input>
+    </div>
+    <div>
+      <ion-input
+        type="text"
+        placeholder="Invite Code"
+        (change)="inviteCodeChanged($event.target.value)"
       ></ion-input>
     </div>
 

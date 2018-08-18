@@ -18,7 +18,10 @@ export class SessionService {
   private _hasSubscription = new BehaviorSubject(false);
   hasSubscription = this._hasSubscription.asObservable();
 
-  constructor(private http: HttpClient, private common: CommonService) { }
+  constructor(
+    private http: HttpClient,
+    private common: CommonService
+  ) { }
 
   currentUser() {
     return this.http.get(URLS.api + URLS.session.currentUser, { headers: this.common.getHeaders() })
@@ -26,7 +29,7 @@ export class SessionService {
         this._hasSubscription.next(data['user'] && data['user'].current_subscription);
         return data as any;
       });
-  }
+    }
 
   get isLog(): boolean {
     return this._isLog;
@@ -69,30 +72,56 @@ export class SessionService {
     this._hasSubscription.next(false);
   }
 
-  login(user = {
-    email: '',
-    password: ''
-  }) {
-    return this.http.post(URLS.api + URLS.session.login, user, {observe: 'response'}).map((data) => {
+  login(user) {
+    const login_url = URLS.api + URLS.session.login + "?email=" + user.email + "&password=" + user.password + "&device_name=" + user.device_name;
+    return this.http.get(login_url, { observe: 'response' }).map((data) => {
       const res = data.body['data'];
       this.buildHeaders(data);
-      return {success: true, role: res.role };
+      return { success: true, role: res.role };
+    }).catch(data => {
+      return Observable.of({ success: false, errors: data.error['errors'] });
+    }).map(data => data as any);
+  }
+
+  loginWithTenant(user, url) {
+    const login_url = url + URLS.session.login + '?email=' + user.email + '&password=' + user.password + '&device_name=' + user.device_name;
+    return this.http.get( login_url, {observe: 'response'}).map((data) => {
+      const res = data.body['data'];
+      this.buildHeaders(data);
+      return {success: true, role: res.role};
     }).catch(data => {
       return Observable.of({success: false, errors: data.error['errors'] });
     }).map(data => data as any);
   }
 
-  register(user = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: ''
-  }) {
-    return this.http.post(URLS.api + URLS.session.register, user, {observe: 'response'}).map((data) => {
-      return {success: true};
-    }).catch(data => {
-      return Observable.of({success: false, errors: data.error['errors']});
-    }).map(data => data as any);
+  register(user) {
+    return this.http
+      .post(URLS.api + URLS.session.register, user, { observe: "response" })
+      .map(data => {
+        return { success: true };
+      })
+      .catch(data => {
+        return Observable.of({
+          success: false,
+          errors: data.error["errors"]
+        });
+      })
+      .map(data => data as any);
+  }
+
+  registerWithTenant(user, url) {
+    return this.http
+      .post(url + URLS.session.register, user, { observe: "response" })
+      .map(data => {
+        return { success: true };
+      })
+      .catch(data => {
+        return Observable.of({
+          success: false,
+          errors: data.error["errors"]
+        });
+      })
+      .map(data => data as any);
   }
 
   // sign in or up. same logic
@@ -108,6 +137,15 @@ export class SessionService {
     }).catch(data => {
       return Observable.of({success: false, errors: data.error['errors']});
     }).map(data => data as any);
+  }
+
+  tenantsInfo(code) {
+    return this.http.get('https://sosmethod-backend-dev.herokuapp.com' + URLS.tenant.info + '?access_token=' + code, { observe: 'response' })
+      .map(data => {
+        return data;
+      }).catch(data => {
+        return Observable.of({ success: false, errors: data.error['errors'] });
+      }).map(data => data as any);
   }
 
   private buildHeaders(data) {

@@ -17,7 +17,9 @@ export class CommonService {
   private _loggedOut = new Subject();
   loggedOut = this._loggedOut.asObservable();
 
-  constructor() { }
+  constructor() {
+
+  }
 
   emitChange(myMessage: any) {
     this.emitChangeSource.next(myMessage);
@@ -66,6 +68,7 @@ export class CommonService {
 
   logout() {
     this.setData('user', null);
+    this.setData("base_url", null);
     this.setData('headers', { 'access-token': null });
     this._loggedOut.next(true);
   }

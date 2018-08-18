@@ -61,59 +61,12 @@ export class EmpowerPage implements OnInit {
 
   ngOnInit() {
 
-    this.getPrograms();
+    // this.getPrograms();
 
-    this.getTools();
+    // this.getTools();
 
-    this.sessionService.currentUser().subscribe(result => {
-      console.log('this.subscriptionService.hasSubscription', this.subscriptionService.hasSubscription);
-      if (
-        this.subscriptionService.hasSubscription || 
-        (result.user && result.user.current_subscription)
-      ) {
-        this.hasSubscription = true;
+    // this.getCurrentUsers();
 
-        // This is checking for completion of 5 day essentials
-        this.programService.showProgramClass({
-          id: essentials5ProgramClassId,
-          user_id: this.commonService.getData('user')['id']
-        }).subscribe(result => {
-          this.hasCompletedEssentials5 = result.user_classes
-            .map(userClass => {
-              return userClass.status === 'COMPLETE';
-            })
-            .reduce((accumulator, current) => {
-              return accumulator && current;
-            });
-          if(this.hasCompletedEssentials5 && this.hasCompletedEssentials11) {
-            this.showingPrograms['essentials'] = false;
-            this.showingPrograms['discovery'] = true;
-          }
-        });
-        // This is checking for completion of 11 day essentials
-        this.programService.showProgramClass({
-          id: essentials11ProgramClassId,
-          user_id: this.commonService.getData('user')['id']
-        }).subscribe(result => {
-          this.hasCompletedEssentials11 = result.user_classes
-            .map(userClass => {
-              return userClass.status === 'COMPLETE';
-            })
-            .reduce((accumulator, current) => {
-              return accumulator && current;
-            });
-          if(this.hasCompletedEssentials5 && this.hasCompletedEssentials11) {
-            this.showingPrograms['essentials'] = false;
-            this.showingPrograms['discovery'] = true;
-          }
-        });
-
-        // This is the second place that the statuses are fetched if they havent been yet.
-        if(!this.programStatusesFetched) {
-          this.fetchProgramCompletionStatuses();
-        }
-      }
-    });
   }
 
   getPrograms() {
@@ -136,7 +89,7 @@ export class EmpowerPage implements OnInit {
           this.showingPrograms['essentials'] = true;
           return;
         }
-        
+
         if(!this.programTypesMap[program.program_type]) {
           this.programTypesMap[program.program_type] = [];
           this.programTypes.push(program.program_type);
@@ -181,6 +134,7 @@ export class EmpowerPage implements OnInit {
           program_type: 'tool',
         };
       });
+
       console.log('programTypesMap["tools"]', this.programTypesMap['tool']);
       this.loadingTools = false;
     }, error => {
@@ -188,6 +142,59 @@ export class EmpowerPage implements OnInit {
         this.loadingTools = false;
         this.failedLoadingTools = true;
       }, 3000);
+    });
+  }
+
+  getCurrentUsers() {
+    this.sessionService.currentUser().subscribe(result => {
+
+      console.log('this.subscriptionService.hasSubscription', this.subscriptionService.hasSubscription);
+      if (
+        this.subscriptionService.hasSubscription ||
+        (result.user && result.user.current_subscription)
+      ) {
+        this.hasSubscription = true;
+
+        // This is checking for completion of 5 day essentials
+        this.programService.showProgramClass({
+          id: essentials5ProgramClassId,
+          user_id: this.commonService.getData('user')['id']
+        }).subscribe(result => {
+          this.hasCompletedEssentials5 = result.user_classes
+            .map(userClass => {
+              return userClass.status === 'COMPLETE';
+            })
+            .reduce((accumulator, current) => {
+              return accumulator && current;
+            });
+          if (this.hasCompletedEssentials5 && this.hasCompletedEssentials11) {
+            this.showingPrograms['essentials'] = false;
+            this.showingPrograms['discovery'] = true;
+          }
+        });
+        // This is checking for completion of 11 day essentials
+        this.programService.showProgramClass({
+          id: essentials11ProgramClassId,
+          user_id: this.commonService.getData('user')['id']
+        }).subscribe(result => {
+          this.hasCompletedEssentials11 = result.user_classes
+            .map(userClass => {
+              return userClass.status === 'COMPLETE';
+            })
+            .reduce((accumulator, current) => {
+              return accumulator && current;
+            });
+          if (this.hasCompletedEssentials5 && this.hasCompletedEssentials11) {
+            this.showingPrograms['essentials'] = false;
+            this.showingPrograms['discovery'] = true;
+          }
+        });
+
+        // This is the second place that the statuses are fetched if they havent been yet.
+        if (!this.programStatusesFetched) {
+          this.fetchProgramCompletionStatuses();
+        }
+      }
     });
   }
 
@@ -253,6 +260,9 @@ export class EmpowerPage implements OnInit {
   }
 
   ionViewDidEnter() {
+    this.loadingPrograms = false;
+    this.failedLoadingPrograms = true;
+
     let push_popup_status = localStorage.getItem('push_popup_status');
     if(push_popup_status == 'first' || push_popup_status == 'complete') {
       setTimeout(() => {
@@ -261,8 +271,10 @@ export class EmpowerPage implements OnInit {
     }
   }
 
+
+
   ionViewWillEnter() {
-    
+
   }
 
   ionViewWillLeave() {
@@ -288,22 +300,29 @@ export class EmpowerPage implements OnInit {
         this.navCtrl.push('SubscribePage');
       } else if(!this.errorToast) {
         let message = 'You must first finish the 5 day and 11 day Essentials.';
+        let cssClass = 'error-toast';
 
         if(!this.hasCompletedEssentials5) {
-          message = 'You must first finish the 5 day Essentials.';
+          /** Old Message */
+          // message = "You must first finish the 5 day Essentials.";
+          /** End */
+
+          message = "To progress to the next level, please complete the 5 Day program";
+          cssClass = "error-vtoast";
         }
 
         if (
-          this.hasCompletedEssentials && 
+          this.hasCompletedEssentials &&
           program.program_type === 'discovery' &&
           !this.hasCompletedFirstClass[programClass.id]
         ) {
-          message = 'You must first finish the 5 day program.'
+          message = 'You must first finish the 5 day program.';
+          cssClass = "error-toast";
         }
 
         this.errorToast = this.toastController.create({
           message,
-          cssClass: 'error-toast',
+          cssClass: cssClass,
           position: 'middle',
           showCloseButton: true,
           closeButtonText: 'OK',
@@ -329,6 +348,8 @@ export class EmpowerPage implements OnInit {
       }
     }
   }
+
+
 
   shouldShowFreeIcon(programClass, program) {
     return (!this.hasSubscription && !programClass.payment_required);
@@ -393,7 +414,7 @@ export class EmpowerPage implements OnInit {
     });
 
     myModal.onWillDismiss(() => {
-      
+
     });
 
   }

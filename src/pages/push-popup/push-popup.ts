@@ -38,7 +38,9 @@ export class PushPopupPage {
   }
 
   yesClick() {
+    console.log('1111');
     localStorage.setItem('push_popup_status', 'yes');
+    console.log("yes click");
     this.initPushNotification();
   }
 
@@ -65,16 +67,17 @@ export class PushPopupPage {
       windows: {}
     };
     const pushObject: PushObject = this.push.init(options);
+    console.log("push object: ", pushObject);
     pushObject.on('registration').subscribe((data: any) => {
-      console.log("push token: ", data.registrationId);
-      this.sendTokenToServer(data.registrationId);
+      console.log("token ==>", data);
+        this.sendTokenToServer(data.registrationId);
     },(error: any) => {
-        console.log(error);
+        console.log("err: ",error);
     });
     
     pushObject.on('notification').subscribe((data: any) => {
       console.log('message -> ' + data.message);
-      
+
       var message = data.message;
       var obj = JSON.parse(message);
       var resource = obj.resource;
@@ -96,9 +99,7 @@ export class PushPopupPage {
       } else {
 
       }
-
-      console.log("resource value: ", resource);
-
+      
       //if user using app and push notification comes
       if (data.additionalData.foreground) {
       //if application open, show popup

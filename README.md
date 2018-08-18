@@ -38,3 +38,35 @@ note: the ios build process is currently untested. Waiting on dev account to be 
 ## Deployment
 
 Currently, we manually upload the apk to HockeyApp. Eventually, we will want to automate that, possibly using fastlane.tools.
+
+## Deeplink Test Links
+sosmethodapp://program?essentials
+sosmethodapp://program?meditation
+sosmethodapp://empwoser
+
+
+## Please find deeplink All information from branch.io
+
+branch.io : hello@sosmethod.co / s0sM3th0d* 
+
+## Test Deeplink branch-config
+
+<branch-config>
+    <branch-key value="key_test_ehDYRW8JsKse8MgRws7lOenkCCm8nFxD" />
+    <uri-scheme value="sos2alliedcode" />
+    <link-domain value="sos2alliedcode.test-app.link" />
+    <ios-team-release value="R38BH6KHNX" />
+</branch-config>
+
+## Release version
+
+<branch-config>
+    <branch-key value="key_live_kny9S18MEVso2OdUrq4mUjadFFa0mxsO" />
+    <uri-scheme value="sos2alliedcode" />
+    <link-domain value="sos2alliedcode.app.link" />
+    <ios-team-release value="R38BH6KHNX" />
+</branch-config>
+
+
+
+

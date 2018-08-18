@@ -13,3 +13,16 @@
     background: rgba(0,0,0, 0.2);
   }
 }
+
+.error-vtoast{
+  .toast-container{
+    background:linear-gradient(to right, #cb6f91 1%, #bb3f6b 30%, #832e70 100%);
+  }
+  .error-toast{
+    color: white;
+    white-space: pre-wrap;
+  }
+  .toast-button {
+    background: rgba(0,0,0, 0.2);
+  }
+}

@@ -17,52 +17,50 @@ import { CommonService } from './services/common.service';
 import { SubscriptionService } from './services/subscription.service';
 // import { PushService } from './services/push.service';
 
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
+// import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: "app.html"
 })
 export class MyApp {
+  @ViewChild("navContent") nav: NavController;
 
-  @ViewChild('navContent') nav: NavController;
-
-  rootPage:any = 'SignupPage';
+  rootPage: any = "SignupPage";
   isSubscribed = false;
   showingVideo = true;
-  localVideoUrl = 'assets/intro.mp4';
+  localVideoUrl = "assets/intro.mp4";
   videoUrl;
   shouldShowGif = false;
-  gifUrl = '';
+  gifUrl = "";
 
   connectSubscription;
   disconnectSubscription;
 
   menuLinks = [
     {
-      url: 'http://sosmethod.co/help-center',
-      text: 'About'
+      url: "http://sosmethod.co/help-center",
+      text: "About"
     },
     {
-      url: 'http://sosmethod.co/contact',
-      text: 'Contact Us'
+      url: "http://sosmethod.co/contact",
+      text: "Contact Us"
     },
     {
-      url: 'http://sosmethod.co/gift',
-      text: 'Send a Gift'
+      url: "http://sosmethod.co/gift",
+      text: "Send a Gift"
     },
     {
-      url: 'http://sosmethod.co/work',
-      text: 'SOS for Work'
+      url: "http://sosmethod.co/work",
+      text: "SOS for Work"
     },
     {
-      url: 'http://sosmethod.co/terms',
-      text: 'Terms & Conditions'
+      url: "http://sosmethod.co/terms",
+      text: "Terms & Conditions"
     },
     {
-      url: 'http://sosmethod.co/privacy',
-      text: 'Privacy Policy'
-    },
-    
+      url: "http://sosmethod.co/privacy",
+      text: "Privacy Policy"
+    }
   ];
 
   isLoggedIn() {
@@ -80,33 +78,30 @@ export class MyApp {
   }
 
   loadVideoForAndroid(cb) {
-    const path = this.fileService.applicationDirectory + 'www/assets';
-    const fileName = 'intro.mp4';
+    const path = this.fileService.applicationDirectory + "www/assets";
+    const fileName = "intro.mp4";
     const newPath = this.fileService.externalApplicationStorageDirectory;
 
-
     setInterval(() => {
-      console.log('file service', this.fileService);
+      console.log("file service", this.fileService);
     }, 10000);
 
-    this.fileService.copyFile(
-      path,
-      fileName,
-      newPath,
-      fileName
-    ).then(fileEntry => {
-      console.log('file copied: ', fileEntry);
-      const url = fileEntry.nativeURL.replace('file:///', '');
-      this.videoUrl = url;
-      window.localStorage.setItem('androidVideoUrl', url);
-      cb();
-    }).catch(error => {
-      console.log('file copy error: ', error);
-      // if the file already exists we get an error
-      // we try to ignore it and just set the video anyway
-      this.videoUrl = window.localStorage.getItem('androidVideoUrl');
-      cb();
-    });
+    this.fileService
+      .copyFile(path, fileName, newPath, fileName)
+      .then(fileEntry => {
+        console.log("file copied: ", fileEntry);
+        const url = fileEntry.nativeURL.replace("file:///", "");
+        this.videoUrl = url;
+        window.localStorage.setItem("androidVideoUrl", url);
+        cb();
+      })
+      .catch(error => {
+        console.log("file copy error: ", error);
+        // if the file already exists we get an error
+        // we try to ignore it and just set the video anyway
+        this.videoUrl = window.localStorage.getItem("androidVideoUrl");
+        cb();
+      });
   }
 
   constructor(
@@ -122,10 +117,8 @@ export class MyApp {
     private debug: IsDebug,
     private hockey: HockeyApp,
     private app: App,
-    public storage: Storage,
-    private push: Push,
+    public storage: Storage
   ) {
-    
     console.log("globals", ENV.URL);
 
     this.videoUrl = this.localVideoUrl;
@@ -136,23 +129,29 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.hide();
+      branchInit();
 
       let isDebug = false;
 
-      if(this.platform.is('cordova')) {
+      if (this.platform.is("cordova")) {
         isDebug = await debug.getIsDebug();
-        
-        if(isDebug) {
+
+        if (isDebug) {
           // The Android ID of the app as provided by the HockeyApp portal. Can be null if for iOS only.
-          let androidAppId = '8e3d8709a9bb44a5a5781510e5b6bc73';
+          let androidAppId = "8e3d8709a9bb44a5a5781510e5b6bc73";
           // The iOS ID of the app as provided by the HockeyApp portal. Can be null if for android only.
-          let iosAppId = 'd891624ba47a41c3bd66b9653c77e534';
+          let iosAppId = "d891624ba47a41c3bd66b9653c77e534";
           // Specifies whether you would like crash reports to be automatically sent to the HockeyApp server when the end user restarts the app.
           let autoSendCrashReports = true;
           // Specifies whether you would like to display the standard dialog when the app is about to crash. This parameter is only relevant on Android.
           let ignoreCrashDialog = true;
 
-          hockey.start(androidAppId, iosAppId, autoSendCrashReports, ignoreCrashDialog);
+          hockey.start(
+            androidAppId,
+            iosAppId,
+            autoSendCrashReports,
+            ignoreCrashDialog
+          );
 
           //So app doesn't close when hockey app activities close
           //This also has a side effect of unable to close the app when on the rootPage and using the back button.
@@ -166,10 +165,7 @@ export class MyApp {
             }
           });
         }
-        
       }
-
-      this.initPushNotification();
 
       // TODO: something about this doesnt look right
       // does subscription service always resolve hasSubscription before this event?
@@ -178,12 +174,12 @@ export class MyApp {
       });
 
       this.commonService.loggedOut.subscribe(loggedOut => {
-        this.nav.setPages([{ page: 'LoginPage' }]);
+        this.nav.setPages([{ page: "LoginPage" }]);
       });
 
       this.subscriptionService.initialize();
 
-      if(this.platform.is('android') && this.platform.version() < 7) {
+      if (this.platform.is("android") && this.platform.version() < 7) {
         this.showingVideo = false;
       } else {
         setTimeout(() => {
@@ -193,92 +189,67 @@ export class MyApp {
 
       splashScreen.hide();
 
-      if(this.network.type === 'unknown') {
-        if(isDebug) {
-          alert('No Network found on launch.');
+      if (this.network.type === "unknown") {
+        if (isDebug) {
+          alert("No Network found on launch.");
         }
       }
 
-      this.disconnectSubscription = this.network.onDisconnect().subscribe(() => {
-        console.log('network was disconnected :-(');
-        if(isDebug) {
-          alert('Network Disconnected');
-        }
-      });
+      this.disconnectSubscription = this.network
+        .onDisconnect()
+        .subscribe(() => {
+          console.log("network was disconnected :-(");
+          if (isDebug) {
+            alert("Network Disconnected");
+          }
+        });
 
       this.connectSubscription = this.network.onConnect().subscribe(() => {
-        console.log('network reconnected!');
+        console.log("network reconnected!");
         // We just got a connection but we need to wait briefly
         // before we determine the connection type. Might need to wait.
         // prior to doing any api requests as well.
         setTimeout(() => {
-          if(isDebug) {
-            alert('Network Reconnected');
+          if (isDebug) {
+            alert("Network Reconnected");
           }
-          if (this.network.type === 'wifi') {
-            console.log('we got a wifi connection, woohoo!');
+          if (this.network.type === "wifi") {
+            console.log("we got a wifi connection, woohoo!");
           }
         }, 3000);
       });
-
     });
-  } 
 
-  initPushNotification() {
-    const options: PushOptions = {
-      android: {
-        senderID: '653273040369'
-      },
-      ios: {
-        alert: 'true',
-        badge: false,
-        sound: 'true'
-      },
-      windows: {}
+    platform.resume.subscribe(() => {
+      branchInit();
+    });
+
+    // Branch initialization
+    const branchInit = () => {
+      if (!platform.is("cordova")) {
+        return;
+      }
+      const Branch = window["Branch"];
+      Branch.initSession().then(data => {
+        if (data["+clicked_branch_link"]) {
+          console.log("deeplinkData", data);
+          if (data["+clicked_branch_link"]) {
+            if (data.deeplink == 'login_verification') {
+              this.nav.setRoot('LoginPage', { deeplink: data.deeplink })
+            } else if (data.deeplink == 'program') {
+              this.nav.setRoot('ProgramPage', {
+                deeplink: data.deeplink,
+                programId: data.programId,
+                programType: data.programType,
+                programClassId: data.programClassId
+              });
+            } else {
+              console.log('error');
+            }
+          }
+        }
+      });
     };
-    const pushObject: PushObject = this.push.init(options);
-    
-    pushObject.on('notification').subscribe((data: any) => {
-      console.log('message -> ' + data.message);
-      
-      var message = data.message;
-      var obj = JSON.parse(message);
-      var resource = obj.resource;
 
-      if (resource == "empower") {
-        this.nav.setRoot('EmpowerPage');
-      } else if (resource == "next_day_audio") {
-        this.nav.setRoot('ProgramPage', {
-          programClassId: '24',
-          programType: 'essentials',
-          programId: '22'
-        });
-      } else if (resource == "meditation") {
-        this.nav.setRoot('ProgramPage', {
-          programClassId: '38',
-          programType: 'meditation',
-          programId: '29'
-        });
-      } else {
-
-      }
-
-      console.log("resource value: ", resource);
-
-      //if user using app and push notification comes
-      if (data.additionalData.foreground) {
-      //if application open, show popup
-        
-      } else {
-        //if user NOT using app and push notification comes
-        //TODO: Your logic on click of push notification directly     
-        console.log('Push notification clicked');
-      }
-    });
-
-    pushObject.on('error').subscribe(error => {
-      console.error('Error with Push plugin' + error);
-      alert(error);
-    });
-  } 
+  }
 }
